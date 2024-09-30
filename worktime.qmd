@@ -1,0 +1,374 @@
+---
+title: "Eine kurze Geschichte der Arbeitszeit"
+author: "Matthias Schnetzer"
+date: "2024-10-01"
+lang: de
+language:
+  de:
+    title-block-author-single: "Autor"
+    title-block-published: "Erstellt"
+format: 
+  closeread-html:
+    css: msaz.css
+    code-tools: false
+    fig-format: svg
+    toc: false
+    linkcolor: tomato
+---
+
+### {.page-columns .page-full}
+
+:::{.epigraph}
+> "Es geht aber in einer Zeit, wie die jetzige ist, nicht an, dass auf der einen Seite Zehntausende Menschen länger als acht Stunden, zehn und elf Stunden arbeiten, während anderseits viele Zehntausende Menschen vollständig arbeitslos sind und nicht den nötigen Erwerb zu finden vermögen."<br><div style='text-align:right;'>[Ferdinand Hanusch (1918)](https://www.parlament.gv.at/dokument/PN/PNSITZ/5/imfname_617288.pdf)</div>
+::: 
+
+## Die Errungenschaft des Achtstundentages
+
+Der Achtstundentag war eine der ältesten Forderungen der Arbeiter:innenbewegung. Sie wurde erstmals von [Robert Owen](https://de.wikipedia.org/wiki/Robert_Owen_(Unternehmer)), dem walisischen Sozialreformer, in den 1810er Jahren in Großbritannien als Forderung formuliert. Owen prägte den Slogan: "Acht Stunden arbeiten, acht Stunden schlafen und acht Stunden Freizeit und Erholung".
+
+Im 19. Jahrhundert war die tägliche Arbeitszeit in den Fabriken auf 12, 14 oder sogar 16 Stunden angestiegen. Zur Produktivitätssteigerung wurden auch die Sonntags- sowie die Nachtarbeit eingeführt, und das nicht nur für Erwachsene – auch Kinder waren von dieser Praxis betroffen.
+
+::: {.column-screen style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/79/Eight_hour_campaign_in_Denmark_1912.jpg); background-size: cover; height: 70vh; clip-path: inset(70px 0px 0px 0px);"}
+:::
+<figcaption>Demonstration für den Achtstundentag in Dänemark, 1912.<br>(Quelle: [Wikipedia](https://en.wikipedia.org/wiki/Eight-hour_day_movement#/media/File:Eight_hour_campaign_in_Denmark_1912.jpg))</figcaption>
+
+<br> 
+
+Gesetzliche Regelungen zur Beschränkung dieser überlangen Arbeitszeiten gab es zwar schon früh – so etwa wurde 1846 in einem provisorischen Fabriksgesetz in Oberösterreich ein Arbeitsverbot für Kinder unter 12 Jahren, eine maximal zehnstündige Arbeitszeit für 12- bis 15-jährige sowie die Sonn- und Feiertagsruhe beschlossen. Oft wurden solche Bestimmungen allerdings umgangen und in wirtschaftlichen Krisenzeiten manchmal sogar noch verschärft.
+
+Erstmals wurde 1889 im [Bergbau Seegraben](https://de.wikipedia.org/wiki/Bergbau_Seegraben) in der Steiermark ein Achtstundentag vereinbart. 1906 mussten aber immer noch 90 Prozent aller österreichischen Fabriksarbeiter:innen bis zu elf Stunden täglich arbeiten. Unter der Ägide von [Ferdinand Hanusch](https://de.wikipedia.org/wiki/Ferdinand_Hanusch), Gründer der Arbeiterkammer und Staatssekretärs für soziale Fürsorge, konnte der Achtstundentag – neben weiteren sozialen Verbesserungen – 1918 endlich gesetzlich verankert werden.
+
+:::{.cr-section layout="overlay-center"}
+
+:::{#cr-gesetz}
+```{r}
+#| label: gesetz
+#| fig-cap: "Historische Entwicklung der Wochenarbeitszeit in Stunden<br>(Quelle: <a href='https://www.arbeit-wirtschaft.at/100-jahre-achtstundentag/all/1/'>Pellar, 2018</a>)"
+#| fig-width: 8
+#| fig-height: 4
+#| warning: false
+library(tidyverse)
+library(ggtext)
+
+zeit <- tribble(~jahr, ~stunden,
+                1885, 66, 
+                1914, NA,
+                1919, 66,
+                1919, 48,
+                1939, 60,
+                1945, 48,
+                1959, 45,
+                1970, 43,
+                1972, 42,
+                1975, 40,
+                1985, 40,
+                2023, 40)
+
+zeit_fin <- zeit |> 
+  mutate(stunden = lag(stunden)) |> 
+  bind_rows(zeit, .id = "id") |> 
+  mutate(krieg = case_match(jahr, 
+                1914 ~ 66, 1919 ~ 66),
+         kv = case_match(jahr, 
+                1985 ~ 38.5, 2023 ~ 38.5)) |> 
+  add_row(id = "1", jahr = 1985, kv = 40)
+
+zeit_fin |> arrange(jahr, id)  |> 
+  ggplot(aes(x = jahr, y = stunden)) +
+  geom_area(fill = "gray80", alpha = 0.2) +
+  geom_line() +
+  geom_line(aes(y = krieg), linetype = "dotted") +
+  geom_line(aes(y = kv), linetype = "longdash") +
+  scale_y_continuous(limits = c(0,70), labels = scales::label_number(suffix="h"),
+  sec.axis = sec_axis(~.x, labels = scales::label_number(suffix="h"))) +
+  scale_x_continuous(breaks = seq(1890,2020,20), expand = c(0,0), 
+  sec.axis = sec_axis(~.x, breaks = seq(1890,2020,20))) +
+  labs(x="", y="") +
+  theme_minimal(base_family = "Barlow Condensed") + 
+  theme(panel.grid.minor = element_blank(),
+  plot.margin = margin(r = 20, t = 10, unit = "pt"))
+```
+:::
+
+Bis Ende des 19. Jahrhundert war die Arbeitszeit nicht gesetzlich geregelt. Laut Gewerbeordnung galt ab 1885 in Fabriken eine Arbeitszeit von 11 Stunden pro Tag und 66 Stunden pro Woche.
+@cr-gesetz
+
+Bereits bei der sozialdemokratischen Mai-Feier 1890 wurde die Forderung nach dem Achtstundentag erhoben. Nach jahrelangem Kampf wurde dieser nach dem 1. Weltkrieg im Jahr 1919 eingeführt. [@cr-gesetz]{pan-to="50%,60%" scale-by="2"}
+
+Als während des 2. Weltkriegs die Arbeitskräfte knapp wurden, verlängerte die nationalsozialistische Verwaltung neben dem Einsatz von Zwangsarbeitern die tägliche Arbeitszeit auf elf Stunden. [@cr-gesetz]{pan-to="20%,50%" scale-by="2"}
+
+Ein Ministerialentwurf von 1958 für ein neues Arbeitszeitgesetz sah eine stufenweise Verkürzung der Arbeitszeit auf eine 40-Stunden-Woche bis 1963 vor. Ein Generalkollektivvertrag brachte 1959 zunächst die 45-Stunden-Woche. 
+[@cr-gesetz]{pan-to="-20%,40%" scale-by="2"}
+
+Die SPÖ initiierte 1969 ein Volksbegehren für die 40-Stunden-Woche. Die Sozialpartner verabschiedeten darauf einen Generalkollektivvertrag mit einer schrittweisen Verkürzung der Wochenarbeitszeit auf 40 Stunden bis 1975. [@cr-gesetz]{pan-to="-35%,20%" scale-by="2"}
+
+Seit 1985 gibt es 38,5 Stunden in manchen Kollektivverträgen. Außerdem gab es Schritte zur Verkürzung der Jahresarbeitszeit: 1976 wurden 4 Wochen Jahresurlaub gesetzlich eingeführt, 1984 bis 1986 schrittweise die 5 Woche. [@cr-gesetz]{pan-to="-50%,-15%" scale-by="2"}
+
+Eine Regierungskoalition aus ÖVP und FPÖ verabschiedete 2018 eine Gesetzesnovelle, welche die zulässige Höchstarbeitszeit auf 12 Stunden pro Tag bzw. 60 Stunden pro Woche ausweitete. @cr-gesetz
+
+:::
+
+Seit Jahren mehren sich die Stimmen, die aus unterschiedlichen Motiven eine Reduktion der Normalarbeitszeit fordern. Die Argumente sind Produktivitätsfortschritte, zunehmende Arbeitsbelastung, negative gesundheitliche Folgen langer Arbeitszeiten oder der Wunsch nach einem ausgewogeneren Verhältnis aus Lohnarbeit, unbezahlter Reproduktionsarbeit und Freizeit. Jede:r sechste Arbeitnehmer:in in Österreich würde gerne die Arbeitszeit reduzieren, unter den Vollzeitbeschäftigten ist es sogar jede vierte Person.
+
+## Arbeitszeitrealitäten im 21. Jahrhundert
+
+Die Wunscharbeitszeit in Österreich ist laut Arbeitskräfteerhebung von Statistik Austria recht klar verteilt: Beschäftigte mit einem Stundenausmaß von 30 Stunden oder weniger wollen ihre Arbeitszeit im Durchschnitt erhöhen, jene mit mehr als 30 Stunden reduzieren. Etwa ein Viertel der Teilzeitbeschäftigten will die Arbeitszeit unmittelbar ausweiten, etwa ein Viertel der Vollzeitbeschäftigten sie unmittelbar reduzieren. Das gewünschte Arbeitsausmaß beträgt im Durchschnitt 34,9 Wochenstunden, die [gewünschte Arbeitszeitreduktion](https://www.awblog.at/Arbeit/jetzt-ist-der-beste-zeitpunkt-fuer-arbeitszeitverkuerzung) im Durchschnitt 1,2 Stunden.
+
+:::{.cr-section layout="sidebar-left"}
+
+:::{#cr-vollzeit}
+```{r vollzeit}
+#| output: 'asis'
+#| fig-asp: 1.2
+#| warning: false
+library(geomtextpath)
+library(countrycode)
+library(MetBrewer)
+
+# vzdata <- get_eurostat("lfsa_ewhuis", filters=list(geo=c("AT","DE","EU27_2020"), time=c(2005:2023),isco08="TOTAL", sex="T",worktime="FT",age="Y15-64",wstatus="SAL")) 
+
+# save(vzdata, file = "data/vzdata.rds")
+
+load("data/vzdata.rds")
+
+vzplot <- vzdata |> 
+select(geo,time,values) |>
+mutate(country = case_match(geo,
+"AT" ~ "Österreich", "DE" ~ "Deutschland", "EU27_2020" ~ "EU-27")) 
+
+latest_year <- year(max(vzplot$time))
+
+latest_at <- vzplot |> filter(geo == "AT") |> slice_max(time) |> pull(values)
+
+latest_eu <- vzplot |> filter(geo == "EU27_2020") |> slice_max(time) |> pull(values)
+
+latest_diff <- vzplot |> filter(geo == "AT", time %in% range(time)) |> reframe(abs(values-lag(values)))  |> drop_na()  |> pull()
+
+vzplot |> 
+  ggplot(aes(x=time,y=values)) +
+  geom_textline(aes(group=geo,color=geo,label=country),linewidth=3, hjust = case_match(vzplot$geo, "AT"~0.4, "DE"~0.5, "EU27_2020"~0.7), vjust = -0.3, size = 5) +
+  scale_color_manual(values = met.brewer("Lakota")) +  
+  scale_y_continuous(limits = c(39, 43),
+  labels = scales::label_number(suffix="h")) +
+  labs(x="",y="", caption="Daten: Eurostat 2024 [lfsa_ewhuis].")+
+  theme_minimal(base_family="Barlow Condensed", base_size = 22) + 
+  theme(legend.position="none", 
+        panel.grid.major = element_line(linewidth = 0.2),
+        plot.caption = element_text(size = 14),
+        panel.grid.minor = element_blank())
+```
+
+:::
+
+Vollzeitbeschäftigte in Österreich arbeiten immer noch deutlich länger als im [EU-Schnitt](https://doi.org/10.2908/LFSA_EWHUIS). In Österreich waren es im Jahr `{r} latest_year` etwa `{r} latest_at` Stunden pro Woche während der Durchschnitt über alle 27 EU-Staaten bei `{r} latest_eu` Stunden lag. @cr-vollzeit
+
+Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von Vollzeitbeschäftigten in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit
+
+:::
+
+Nichtsdestotrotz werden hierzulande immer noch sehr viele Überstunden gearbeitet, im Jahr 2023 waren es 180 Millionen Stunden. Davon wird allerdings jede vierte Überstunde, das sind insgesamt 46,6 Millionen Stunden, nicht in Zeit oder Geld abgegolten. Es sind also unbezahlte Überstunden.
+
+```{r}
+#| label: over
+#| fig-width: 12
+#| fig-height: 4
+library(waffle)
+
+over <- tribble(~typ, ~stunden,
+"bezahlt", 133,
+"unbezahlt", 47)
+
+ggplot(over, aes(fill = typ, values = stunden)) +
+  geom_waffle(color = "white", size = .25, n_rows = 5) +
+  annotate("tile", x=1, y=1, color = "black", linewidth =.25, fill = "transparent") +
+  scale_y_continuous(expand = c(0.1,0.1)) +
+  scale_x_continuous(expand = c(0,0)) +
+  coord_equal() +
+  scale_fill_manual(values = met.brewer("Lakota"),
+  labels = c("Bezahlte Überstunden", "Unbezahlte Überstunden"), name = NULL) +
+  annotate("text", x = 3, y = 0, label = "1 Million geleistete Überstunden", family = "Barlow Condensed", size = 6, hjust = 0) +
+  annotate("curve", x=2.8, xend = 1,
+  y = 0, yend = 1, linewidth = 0.3, curvature = -0.4, arrow = arrow(type = "closed", length = unit(4, "pt"))) +
+  labs(x = NULL, y = NULL,
+  caption = "Daten: Arbeitskräfteerhebung 2023, Statistik Austria.") +
+  theme_minimal(base_family = "Barlow Condensed", base_size = 22) +
+  theme(panel.grid = element_blank(),
+  plot.caption = element_text(size = 14),
+  legend.position = "top",
+  axis.text = element_blank())
+```
+
+Auf Basis der Arbeitskräfteerhebung von Statistik Austria zeigt sich, dass Frauen 2023 16,7 Millionen Überstunden unvergütet gearbeitet haben, bei den Männern waren es 29,9 Millionen. Das [Momentum Institut](https://www.momentum-institut.at/news/lohnraub-jede-vierte-ueberstunde-unbezahlt/) hat berechnet, dass die vorenthaltenen Lohn- und Gehaltszahlungen in Summe rund 1,5 Milliarden Euro beträgt.
+
+:::{.cr-section layout="sidebar-left"}
+
+Arbeitszeit ist in Österreich sehr ungleich verteilt. Das zeigt auch ein Blick auf die [Teilzeitquoten](https://doi.org/10.2908/LFSA_EPPGA). Österreich hat im EU-Vergleich eine hohe Teilzeitquote, nur die Niederlande und die Schweiz liegen höher. @cr-teilzeit
+
+Ein genauer Blick auf die Teilzeitquote nach Geschlecht zeigt einen besonders hohen Wert für Frauen. Jeder zehnte Mann, aber jede zweite erwerbstätige Frau zwischen 15 und 64 Jahren arbeitet Teilzeit. @cr-teilzeit
+
+:::{#cr-teilzeit}
+
+```{r teilzeit}
+#| warning: false
+library(gt)
+library(gtExtras)
+
+# tzdata <- get_eurostat("lfsa_eppga", filters = list(time = 2023, age = "Y15-64"))
+
+# save(tzdata, file = "data/tzdata.rds")
+
+load("data/tzdata.rds")
+
+findat <- tzdata |> mutate(country = countrycode(geo, "eurostat", "country.name.de"),
+geo = ifelse(geo == "EL", "GR", geo)) |> 
+select(geo, country, sex, values)  |> 
+pivot_wider(names_from = "sex", values_from = "values")  |> 
+drop_na()
+
+findat |> arrange(-T) |> 
+filter(geo %in% c("NL", "CH", "AT", "DE", "FR", "IT", "ES", "BE", "SE", "PT"))  |> 
+gt() |> 
+fmt_number(columns = is.numeric, locale = "de", decimals = 0, pattern = "{x}%") |>
+fmt_flag(columns = geo, height = "1.5em")  |> 
+gt_highlight_rows(rows = geo == "AT", columns = everything(), target_col = everything(), bold_target_only = T, fill = "transparent")  |> 
+cols_label(geo = "", country = "",
+T = "Gesamt", M = "Männer", F = "Frauen") |> 
+tab_header(title = html("Teilzeitquote nach Geschlecht")) |>
+tab_source_note(source_note = html("<p style='text-align:right;'>Daten: Eurostat 2023 [lfsa_eppga].</p>")) |> 
+gt_theme_538() |> 
+tab_options(table.font.size = px(16),
+table.background.color = "white", 
+quarto.disable_processing = TRUE)   
+```
+:::
+:::
+
+## Baustelle Kinderbetreuung
+
+Ein wichtiger Grund für die hohe Teilzeitquote bei Frauen ist das konservative Familienbild und die mangelnden Möglichkeiten für Kinderbetreuung in Österreich. Denn nach wie vor wird der Großteil der unbezahlten Sorgearbeit im Haushalt von Frauen geleistet. Die letzte [Zeitverwendungserhebung](https://www.awblog.at/Frauen/Frauen-leisten-immer-noch-den-grossteil-unbezahlte-arbeit) von Statistik Austria ergab, dass Frauen mit Kindern rund zwei Drittel ihrer Zeit für Betreuung und Haushalt und zu einem Drittel für Erwerbsarbeit aufbringen. Bei Männern ist das Verhältnis exakt umgekehrt. 
+
+:::{.cr-section layout="sidebar-left"}
+
+:::{#cr-kinder}
+
+```{r kinder}
+#| output: 'asis'
+#| out-width: 4.5in
+#| fig-asp: 1.5
+#| warning: false
+
+df <- tribble(
+  ~Geschlecht, ~Status, ~"<1", ~"1", ~"2", ~"3-5", ~"6-9", ~"10-14",
+  "Männer", "Vollzeit", 85.5, 84.7, 84.4, 83.8, 84.9, 85.9,
+  "Frauen", "Vollzeit", 9.4, 11.6, 9.8, 14.9, 21.6, 29.3,
+  "Männer", "Teilzeit", 6.8, 8.8, 7.9, 8.3, 7.4, 5.9,
+  "Frauen", "Teilzeit", 12.1, 32.7, 58.1, 63.8, 61.2, 54.3,
+  "Männer", "Karenz", 1, 1, 0, 0, 0, 0,
+  "Frauen", "Karenz", 50.8, 26.5, 4.3, 0, 0, 0,
+  "Männer", "Nicht erwerbstätig", 6.9, 5.3, 7.6, 7.9, 7.6, 8.2,
+  "Frauen", "Nicht erwerbstätig", 27.7, 29.3, 27.7, 21.3, 17.2, 16.4
+)
+
+plotdf <- df |> 
+  pivot_longer(-c(Geschlecht, Status), names_to = "Alter", values_to = "Wert") |> 
+  mutate(Alter = factor(Alter, levels=c("<1", "1", "2", "3-5", "6-9", "10-14")),
+         Status = factor(Status, levels=c("Nicht erwerbstätig","Karenz","Teilzeit","Vollzeit")))
+
+plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status)) + 
+  geom_area() +
+  facet_wrap(~Geschlecht, strip.position = "top", dir = "v", scales = "fixed") +
+  scale_x_discrete(expand = c(0.05, 0.05)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(name = NULL, values = met.brewer("Lakota"), guide = guide_legend(keywidth = 1)) +
+  labs(y="", x="Alter des jüngsten Kindes",
+  caption = "Daten: Arbeitskräfteerhebung 2023, Statistik Austria.") +
+  coord_cartesian() +
+  theme_minimal(base_family = "Barlow Condensed",
+  base_size = 22) +
+  theme(panel.grid = element_blank(),
+        legend.text = element_text(size = 18),
+        plot.margin = margin(5, 5, 5, 5, "pt"),
+        legend.position = "bottom",
+        strip.text = element_text(hjust = 0.5,
+        size = 22),
+        plot.caption = element_text(size = 14),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(size = 18),
+        axis.title.x = element_text(hjust = 0.05, size = 18, margin = margin(t = 1, unit = "lines")))
+```
+:::
+
+Bei kleinen Kindern leisten Frauen den Großteil der Betreuungsarbeit im Rahmen der [Karenz](https://www.statistik.at/fileadmin/pages/361/Tab2_Erwerbsbeteiligung_MuetterVaeter_mit_Kindern_u15J.ods). Nach der Karenz bleiben viele Frauen in Teilzeitbeschäftigung. Als häufigsten Grund für Teilzeit geben Frauen die Betreuungspflichten für Kinder (und Ältere). @cr-kinder
+
+Mit nur knapp 16 Prozent Väter, die zumindest einen einzigen Tag in Elternkarenz verbringen, ist die Väterbeteiligung in Österreich sehr schwach. Überhaupt nur 1 Prozent aller Väter gehen länger als 6 Monate in Elternkarenz.
+@cr-kinder
+
+Auch mit steigendem Alter der Kinder ändert sich bei den Vätern wenig. Der Anteil der Männer in Vollzeit oder Teilzeit schwankt in den Daten kaum, unabhängig davon ob ein Kind zuhause, im Kindergarten oder in der Schule ist.
+@cr-kinder
+
+:::
+
+Bei den Angeboten zur Kinderbetreuung hinkt Österreich anderen Ländern hinterher und verfehlt regelmäßig die EU-Ziele. Laut [Statistik Austria](https://www.statistik.at/statistiken/bevoelkerung-und-soziales/bildung/kindertagesheime-kinderbetreuung) besuchten im Kindergartenjahr 2023/24 knapp 33 Prozent der 0-2-Jährigen eine Betreuungseinrichtung. Im 10-Jahresvergleich ist das zwar eine deutliche Steigerung von fast 10 Prozentpunkten, allerdings gibt es zwischen den Bundesländern kräftige Unterschiede. In der Steiermark sind es knapp 21 Prozent, in Wien 46 Prozent.
+
+Das begrenzte Angebot für Kinderbetreuung zeigt sich auch bei den Ganztagesschulen. Im Schuljahr 2022/23 waren österreichweit gut ein Drittel der Volksschüler:innen in einer Ganztagseinrichtung. In der Verfügbarkeit gibt es aber gravierende regionale Unterschiede, wie die Beantwortung einer [parlamentarischen Anfrage](https://www.parlament.gv.at/dokument/XXVII/AB/14482/imfname_1572157.pdf) zeigt.
+
+:::{.cr-section layout="overlay-center"}
+
+:::{#cr-schulen}
+```{r}
+#| label: schulen
+#| fig-cap: "Anteil der Volksschüler:innen in Ganztagesschulen nach Bildungsregionen, 2022/23<br>(Quelle: <a href='https://www.parlament.gv.at/dokument/XXVII/AB/14482/imfname_1572157.pdf'>Parlamentarische Anfrage 2023</a>)"
+#| fig-width: 8
+#| fig-height: 4
+#| warning: false
+library(sf)
+
+load("data/schulen.rds")
+
+vsmap |>
+  ggplot() + 
+  geom_sf(aes(fill = anteil, group = region), linewidth = 0.1, color = "gray90") +
+  geom_sf(data = blmap, fill = "transparent", linewidth = 0.2, color = "black") +
+  scale_fill_manual(values = MetBrewer::met.brewer("Tam", direction = -1)[3:9], 
+      guide = guide_legend(nrow = 1, label.position = "bottom", keywidth = 4, keyheight = 0.6)) +
+  coord_sf(ylim = c(46.3, 49)) +
+  theme_minimal(base_family = "Barlow Condensed", base_size = 12) +
+  theme(legend.position = c(0.5, 0),
+        plot.margin = margin(10, 10, 10, 10, "pt"),
+        legend.title = element_blank(),
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank()) 
+```
+:::
+
+Der Anteil von Volksschüler:innen in Ganztageseinrichtungen lag 2022/23 bei 32,6 Prozent. Das bedeutet allerdings einen starken Anstieg innerhalb von nur zwei Jahren. 2020/21 lag der Anteil noch bei 27,8 Prozent. @cr-schulen
+
+Überdurchschnittlich hoch ist der Anteil in Wien, in Wien-Ost bei 57,8 Prozent und in Wien-West bei 52,2 Prozent.
+[@cr-schulen]{pan-to="-70%,50%" scale-by="3"}
+
+Im Westen Österreichs ist die Quote von Volksschüler:innen in Ganztageseinrichtungen indessen gering. In Vorarlberg sind es 26,8 Prozent und in Tirol sogar nur 16,1 Prozent.
+[@cr-schulen]{pan-to="70%,0%" scale-by="2"}
+
+Österreichweit gibt es aktuell 2.984 Ganztagsschulen über alle Schultypen hinweg. "Echte" Ganztagsschulen mit einem Wechsel aus Unterricht, Lern- und Freizeit gibt es insgesamt sogar nur 256. @cr-schulen
+
+:::
+
+Die [Halbtagsschule](https://www.awblog.at/Bildung/halber-tag-doppelter-nachteil) ist ein Kind ihrer Zeit: Mit der Einführung der Schulpflicht 1774 unter Maria Theresia ließ das halbtätige Format genug Zeit, um etwa nachmittags die Mitarbeit am elterlichen Bauernhof zu ermöglichen. Die Halbtagsschule kann den aktuellen gesellschaftlichen Herausforderungen aber kaum mehr gerecht werden. Denn sie beruht auf Familien- und Erwerbsstrukturen, die für immer weniger Familien zutreffen.
+
+\
+
+\
+
+# {#info} 
+Dieses Dokument wurde mit [Quarto](https://quarto.org), [closeread](https://closeread.netlify.app) und [R](https://www.r-project.org) erstellt. 
+
+\
+
+Die Auswertungen beruhen auf Daten von [Statistik Austria](https://www.statistik.at) und [Eurostat](https://ec.europa.eu/eurostat/de/home), \
+einige Textteile wurden von [Wikipedia](https://en.wikipedia.org/wiki/Main_Page) adaptiert.
+
+\
+
+{{< fa envelope >}} [matthias.schnetzer@akwien.at](mailto:matthias.schnetzer (at) akwien.at) &emsp; {{< fa globe >}} [mschnetzer.github.io](https://mschnetzer.github.io/de/) &emsp; {{< fa brands twitter >}} [@matschnetzer](https://x.com/matschnetzer)
