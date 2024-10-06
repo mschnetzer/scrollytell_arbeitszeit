@@ -32,7 +32,7 @@ Im 19. Jahrhundert war die tägliche Arbeitszeit in den Fabriken auf 12, 14 oder
 :::
 <figcaption>Demonstration für den Achtstundentag in Dänemark, 1912.<br>(Quelle: [Wikipedia](https://en.wikipedia.org/wiki/Eight-hour_day_movement#/media/File:Eight_hour_campaign_in_Denmark_1912.jpg))</figcaption>
 
-<br> 
+\
 
 Gesetzliche Regelungen zur Beschränkung dieser überlangen Arbeitszeiten gab es zwar schon früh – so etwa wurde 1846 in einem provisorischen Fabriksgesetz in Oberösterreich ein Arbeitsverbot für Kinder unter 12 Jahren, eine maximal zehnstündige Arbeitszeit für 12- bis 15-jährige sowie die Sonn- und Feiertagsruhe beschlossen. Oft wurden solche Bestimmungen allerdings umgangen und in wirtschaftlichen Krisenzeiten manchmal sogar noch verschärft.
 
@@ -126,7 +126,6 @@ library(countrycode)
 library(MetBrewer)
 
 # vzdata <- get_eurostat("lfsa_ewhuis", filters=list(geo=c("AT","DE","EU27_2020"), time=c(2005:2023),isco08="TOTAL", sex="T",worktime="FT",age="Y15-64",wstatus="SAL")) 
-
 # save(vzdata, file = "data/vzdata.rds")
 
 load("data/vzdata.rds")
@@ -160,9 +159,9 @@ vzplot |>
 
 :::
 
-Vollzeitbeschäftigte in Österreich arbeiten immer noch deutlich länger als im [EU-Schnitt](https://doi.org/10.2908/LFSA_EWHUIS). In Österreich waren es im Jahr `{r} latest_year` etwa `{r} latest_at` Stunden pro Woche während der Durchschnitt über alle 27 EU-Staaten bei `{r} latest_eu` Stunden lag. @cr-vollzeit
+Vollzeitbeschäftigte Arbeitnehmer:innen in Österreich arbeiten immer noch deutlich länger als im [EU-Schnitt](https://doi.org/10.2908/LFSA_EWHUIS). In Österreich waren es im Jahr `{r} latest_year` etwa `{r} latest_at` Stunden pro Woche während der Durchschnitt über alle 27 EU-Staaten bei `{r} latest_eu` Stunden lag. @cr-vollzeit
 
-Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von Vollzeitbeschäftigten in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit
+Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von vollzeitbeschäftigten Arbeitnehmer:innen in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit
 
 :::
 
@@ -214,7 +213,6 @@ library(gt)
 library(gtExtras)
 
 # tzdata <- get_eurostat("lfsa_eppga", filters = list(time = 2023, age = "Y15-64"))
-
 # save(tzdata, file = "data/tzdata.rds")
 
 load("data/tzdata.rds")
@@ -245,7 +243,7 @@ quarto.disable_processing = TRUE)
 
 ## Baustelle Kinderbetreuung
 
-Ein wichtiger Grund für die hohe Teilzeitquote bei Frauen ist das konservative Familienbild und die mangelnden Möglichkeiten für Kinderbetreuung in Österreich. Denn nach wie vor wird der Großteil der unbezahlten Sorgearbeit im Haushalt von Frauen geleistet. Die letzte [Zeitverwendungserhebung](https://www.awblog.at/Frauen/Frauen-leisten-immer-noch-den-grossteil-unbezahlte-arbeit) von Statistik Austria ergab, dass Frauen mit Kindern rund zwei Drittel ihrer Zeit für Betreuung und Haushalt und zu einem Drittel für Erwerbsarbeit aufbringen. Bei Männern ist das Verhältnis exakt umgekehrt. 
+Wichtige Gründe für die hohe Teilzeitquote bei Frauen sind konservative Familienstrukturen und mangelnde Möglichkeiten für Kinderbetreuung in Österreich. Denn nach wie vor wird der Großteil der unbezahlten Sorgearbeit im Haushalt von Frauen geleistet. Die letzte [Zeitverwendungserhebung](https://www.awblog.at/Frauen/Frauen-leisten-immer-noch-den-grossteil-unbezahlte-arbeit) von Statistik Austria ergab, dass Frauen mit Kindern rund zwei Drittel ihrer Zeit für Betreuung und Haushalt und zu einem Drittel für Erwerbsarbeit aufbringen. Bei Männern ist das Verhältnis exakt umgekehrt. 
 
 :::{.cr-section layout="sidebar-left"}
 
