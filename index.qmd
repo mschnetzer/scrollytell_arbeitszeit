@@ -30,7 +30,7 @@ Im 19. Jahrhundert war die tägliche Arbeitszeit in den Fabriken auf 12, 14 oder
 
 ::: {.column-screen style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/79/Eight_hour_campaign_in_Denmark_1912.jpg); background-size: 100vw; height: 300px; background-position: center +15%; background-repeat: no-repeat;"}
 :::
-<figcaption>Demonstration für den Achtstundentag in Dänemark, 1912.<br>(Quelle: [Wikipedia](https://en.wikipedia.org/wiki/Eight-hour_day_movement#/media/File:Eight_hour_campaign_in_Denmark_1912.jpg))</figcaption>
+<figcaption>"8 Stunden Arbeit - 8 Stunden Freizeit - 8 Stunden Schlaf": Demonstration für den Achtstundentag in Dänemark, 1912.<br>(Quelle: [Wikipedia](https://en.wikipedia.org/wiki/Eight-hour_day_movement#/media/File:Eight_hour_campaign_in_Denmark_1912.jpg))</figcaption>
 
 \
 
@@ -90,8 +90,9 @@ zeit_fin |> arrange(jahr, id)  |>
 ```
 :::
 
-Bis Ende des 19. Jahrhundert war die Arbeitszeit nicht gesetzlich geregelt. Laut Gewerbeordnung galt ab 1885 in Fabriken eine Arbeitszeit von 11 Stunden pro Tag und 66 Stunden pro Woche.
 @cr-gesetz
+
+Bis Ende des 19. Jahrhundert war die Arbeitszeit nicht gesetzlich geregelt. Laut Gewerbeordnung galt ab 1885 in Fabriken eine Arbeitszeit von 11 Stunden pro Tag und 66 Stunden pro Woche. @cr-gesetz
 
 Bereits bei der sozialdemokratischen Mai-Feier 1890 wurde die Forderung nach dem Achtstundentag erhoben. Nach jahrelangem Kampf wurde dieser nach dem 1. Weltkrieg im Jahr 1919 eingeführt. [@cr-gesetz]{pan-to="50%,60%" scale-by="2"}
 
@@ -159,9 +160,31 @@ vzplot |>
 
 :::
 
+:::{#cr-vollzeit-at}
+```{r vollzeit-at}
+#| output: 'asis'
+#| fig-asp: 1.2
+#| warning: false
+vzplot |> 
+  ggplot(aes(x=time,y=values)) +
+  geom_textline(aes(group=geo,color=geo,label=country),linewidth=3, hjust = case_match(vzplot$geo, "AT"~0.4, "DE"~0.5, "EU27_2020"~0.7), vjust = -0.3, size = 5) +
+  scale_color_manual(values = c("AT" = met.brewer("Lakota")[1], "DE" = "gray", "EU27_2020" = "gray")) +  
+  scale_y_continuous(limits = c(39, 43),
+  labels = scales::label_number(suffix="h")) +
+  labs(x="",y="", caption="Daten: Eurostat 2024 [lfsa_ewhuis].")+
+  theme_minimal(base_family="Barlow Condensed", base_size = 22) + 
+  theme(legend.position="none", 
+        panel.grid.major = element_line(linewidth = 0.2),
+        plot.caption = element_text(size = 14),
+        panel.grid.minor = element_blank())
+```
+:::
+
+@cr-vollzeit
+
 Vollzeitbeschäftigte Arbeitnehmer:innen in Österreich arbeiten immer noch deutlich länger als im [EU-Schnitt](https://doi.org/10.2908/LFSA_EWHUIS). In Österreich waren es im Jahr `{r} latest_year` etwa `{r} latest_at` Stunden pro Woche während der Durchschnitt über alle 27 EU-Staaten bei `{r} latest_eu` Stunden lag. @cr-vollzeit
 
-Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von vollzeitbeschäftigten Arbeitnehmer:innen in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit
+Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von vollzeitbeschäftigten Arbeitnehmer:innen in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit-at
 
 :::
 
@@ -179,7 +202,7 @@ over <- tribble(~typ, ~stunden,
 
 ggplot(over, aes(fill = typ, values = stunden)) +
   geom_waffle(color = "white", size = .25, n_rows = 5) +
-  annotate("tile", x=1, y=1, color = "black", linewidth =.25, fill = "transparent") +
+  annotate("tile", x=1, y=1, color = "black", linewidth =.5, fill = "transparent") +
   scale_y_continuous(expand = c(0.1,0.1)) +
   scale_x_continuous(expand = c(0,0)) +
   coord_equal() +
@@ -272,12 +295,12 @@ plotdf <- df |>
   mutate(Alter = factor(Alter, levels=c("<1", "1", "2", "3-5", "6-9", "10-14")),
          Status = factor(Status, levels=c("Nicht erwerbstätig","Karenz","Teilzeit","Vollzeit")))
 
+kindplot <- 
 plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status)) + 
   geom_area() +
   facet_wrap(~Geschlecht, strip.position = "top", dir = "v", scales = "fixed") +
   scale_x_discrete(expand = c(0.05, 0.05)) +
   scale_y_continuous(expand = c(0,0)) +
-  scale_fill_manual(name = NULL, values = met.brewer("Lakota"), guide = guide_legend(keywidth = 1)) +
   labs(y="", x="Alter des jüngsten Kindes",
   caption = "Daten: Arbeitskräfteerhebung 2023, Statistik Austria.") +
   coord_cartesian() +
@@ -294,13 +317,34 @@ plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status)) +
         axis.title.y = element_blank(),
         axis.text.x = element_text(size = 18),
         axis.title.x = element_text(hjust = 0.05, size = 18, margin = margin(t = 1, unit = "lines")))
+
+kindplot +
+  scale_fill_manual(name = NULL, values = met.brewer("Lakota"), guide = guide_legend(keywidth = 1))
 ```
 :::
 
-Bei kleinen Kindern leisten Frauen den Großteil der Betreuungsarbeit im Rahmen der [Karenz](https://www.statistik.at/fileadmin/pages/361/Tab2_Erwerbsbeteiligung_MuetterVaeter_mit_Kindern_u15J.ods). Nach der Karenz bleiben viele Frauen in Teilzeitbeschäftigung. Als häufigsten Grund für Teilzeit geben Frauen die Betreuungspflichten für Kinder (und Ältere). @cr-kinder
+:::{#cr-kinder-väter}
+```{r kinder-väter}
+#| output: 'asis'
+#| out-width: 4.5in
+#| fig-asp: 1.5
+#| warning: false
+
+kindplot +
+  scale_fill_manual(name = NULL, 
+  values = c("Karenz" = met.brewer("Lakota")[2], "Teilzeit"=met.brewer("Lakota")[3], "Vollzeit"="gray65", "Nicht erwerbstätig"="gray80"), 
+  guide = guide_legend(keywidth = 1))
+```
+:::
+
+@cr-kinder
+
+Die Grafik zeigt den Erwerbsstatus von Männern und Frauen nach dem Alter des jüngsten Kindes. @cr-kinder
+
+Bei kleinen Kindern leisten Frauen den Großteil der Betreuungsarbeit im Rahmen der [Karenz](https://www.statistik.at/fileadmin/pages/361/Tab2_Erwerbsbeteiligung_MuetterVaeter_mit_Kindern_u15J.ods). Nach der Karenz bleiben viele Frauen in Teilzeitbeschäftigung. Als häufigsten Grund für Teilzeit geben Frauen die Betreuungspflichten für Kinder (und Ältere). @cr-kinder-väter
 
 Mit nur knapp 16 Prozent Väter, die zumindest einen einzigen Tag in Elternkarenz verbringen, ist die Väterbeteiligung in Österreich sehr schwach. Überhaupt nur 1 Prozent aller Väter gehen länger als 6 Monate in Elternkarenz.
-@cr-kinder
+@cr-kinder-väter
 
 Auch mit steigendem Alter der Kinder ändert sich bei den Vätern wenig. Der Anteil der Männer in Vollzeit oder Teilzeit schwankt in den Daten kaum, unabhängig davon ob ein Kind zuhause, im Kindergarten oder in der Schule ist.
 @cr-kinder
@@ -341,6 +385,8 @@ vsmap |>
 ```
 :::
 
+@cr-schulen
+
 Der Anteil von Volksschüler:innen in Ganztageseinrichtungen lag 2022/23 bei 32,6 Prozent. Das bedeutet allerdings einen starken Anstieg innerhalb von nur zwei Jahren. 2020/21 lag der Anteil noch bei 27,8 Prozent. @cr-schulen
 
 Überdurchschnittlich hoch ist der Anteil in Wien, in Wien-Ost bei 57,8 Prozent und in Wien-West bei 52,2 Prozent.
@@ -350,6 +396,8 @@ Im Westen Österreichs ist die Quote von Volksschüler:innen in Ganztageseinrich
 [@cr-schulen]{pan-to="70%,0%" scale-by="2"}
 
 Österreichweit gibt es aktuell 2.984 Ganztagsschulen über alle Schultypen hinweg. "Echte" Ganztagsschulen mit einem Wechsel aus Unterricht, Lern- und Freizeit gibt es insgesamt sogar nur 256. @cr-schulen
+
+@cr-schulen
 
 :::
 

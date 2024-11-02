@@ -57,6 +57,10 @@ body, section, header {
   padding-block-start: 50svh;
 }
 
+.cr-section.overlay-center .narrative-col .trigger .narrative {
+  padding: 0em;
+}
+
 #info {
   background-color:linen !important;
   position: fixed;
