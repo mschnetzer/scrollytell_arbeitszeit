@@ -28,7 +28,7 @@ Der Achtstundentag war eine der ältesten Forderungen der Arbeiter:innenbewegung
 
 Im 19. Jahrhundert war die tägliche Arbeitszeit in den Fabriken auf 12, 14 oder sogar 16 Stunden angestiegen. Zur Produktivitätssteigerung wurden auch die Sonntags- sowie die Nachtarbeit eingeführt, und das nicht nur für Erwachsene – auch Kinder waren von dieser Praxis betroffen.
 
-::: {.column-screen style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/79/Eight_hour_campaign_in_Denmark_1912.jpg); background-size: cover; height: 70vh; clip-path: inset(70px 0px 0px 0px);"}
+::: {.column-screen style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/7/79/Eight_hour_campaign_in_Denmark_1912.jpg); background-size: 100vw; height: 300px; background-position: center +15%; background-repeat: no-repeat;"}
 :::
 <figcaption>Demonstration für den Achtstundentag in Dänemark, 1912.<br>(Quelle: [Wikipedia](https://en.wikipedia.org/wiki/Eight-hour_day_movement#/media/File:Eight_hour_campaign_in_Denmark_1912.jpg))</figcaption>
 
@@ -354,8 +354,6 @@ Im Westen Österreichs ist die Quote von Volksschüler:innen in Ganztageseinrich
 :::
 
 Die [Halbtagsschule](https://www.awblog.at/Bildung/halber-tag-doppelter-nachteil) ist ein Kind ihrer Zeit: Mit der Einführung der Schulpflicht 1774 unter Maria Theresia ließ das halbtätige Format genug Zeit, um etwa nachmittags die Mitarbeit am elterlichen Bauernhof zu ermöglichen. Die Halbtagsschule kann den aktuellen gesellschaftlichen Herausforderungen aber kaum mehr gerecht werden. Denn sie beruht auf Familien- und Erwerbsstrukturen, die für immer weniger Familien zutreffen.
-
-\
 
 \
 
