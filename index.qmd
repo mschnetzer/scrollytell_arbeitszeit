@@ -186,6 +186,8 @@ Vollzeitbeschäftigte Arbeitnehmer:innen in Österreich arbeiten immer noch deut
 
 Seit 2005 sinkt allerdings die durchschnittliche Normalarbeitszeit von vollzeitbeschäftigten Arbeitnehmer:innen in Österreich deutlich. Von 2005 bis `{r} latest_year` immerhin um `{r} latest_diff` Stunden pro Woche. @cr-vollzeit-at
 
+@cr-vollzeit
+
 :::
 
 Nichtsdestotrotz werden hierzulande immer noch sehr viele Überstunden gearbeitet, im Jahr 2023 waren es 180 Millionen Stunden. Davon wird allerdings jede vierte Überstunde, das sind insgesamt 46,6 Millionen Stunden, nicht in Zeit oder Geld abgegolten. Es sind also unbezahlte Überstunden.
@@ -224,9 +226,13 @@ Auf Basis der Arbeitskräfteerhebung von Statistik Austria zeigt sich, dass Frau
 
 :::{.cr-section layout="sidebar-left"}
 
+@cr-teilzeit
+
 Arbeitszeit ist in Österreich sehr ungleich verteilt. Das zeigt auch ein Blick auf die [Teilzeitquoten](https://doi.org/10.2908/LFSA_EPPGA). Österreich hat im EU-Vergleich eine hohe Teilzeitquote, nur die Niederlande und die Schweiz liegen höher. @cr-teilzeit
 
 Ein genauer Blick auf die Teilzeitquote nach Geschlecht zeigt einen besonders hohen Wert für Frauen. Jeder zehnte Mann, aber jede zweite erwerbstätige Frau zwischen 15 und 64 Jahren arbeitet Teilzeit. @cr-teilzeit
+
+@cr-teilzeit
 
 :::{#cr-teilzeit}
 
@@ -296,11 +302,12 @@ plotdf <- df |>
          Status = factor(Status, levels=c("Nicht erwerbstätig","Karenz","Teilzeit","Vollzeit")))
 
 kindplot <- 
-plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status)) + 
+plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status, alpha = Status)) + 
   geom_area() +
   facet_wrap(~Geschlecht, strip.position = "top", dir = "v", scales = "fixed") +
   scale_x_discrete(expand = c(0.05, 0.05)) +
   scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(name = NULL, values = met.brewer("Lakota"), guide = guide_legend(keywidth = 1)) +
   labs(y="", x="Alter des jüngsten Kindes",
   caption = "Daten: Arbeitskräfteerhebung 2023, Statistik Austria.") +
   coord_cartesian() +
@@ -319,7 +326,7 @@ plotdf |> ggplot(aes(x=Alter, y=Wert, fill=Status, group=Status)) +
         axis.title.x = element_text(hjust = 0.05, size = 18, margin = margin(t = 1, unit = "lines")))
 
 kindplot +
-  scale_fill_manual(name = NULL, values = met.brewer("Lakota"), guide = guide_legend(keywidth = 1))
+scale_alpha_manual(values = rep(1, 4), guide = guide_none())
 ```
 :::
 
@@ -331,9 +338,21 @@ kindplot +
 #| warning: false
 
 kindplot +
-  scale_fill_manual(name = NULL, 
-  values = c("Karenz" = met.brewer("Lakota")[2], "Teilzeit"=met.brewer("Lakota")[3], "Vollzeit"="gray65", "Nicht erwerbstätig"="gray80"), 
-  guide = guide_legend(keywidth = 1))
+  scale_alpha_manual( 
+  values = c("Karenz" = 1, "Teilzeit" = 1, "Vollzeit" = 0.2, "Nicht erwerbstätig"= 0.2), guide = guide_none())
+```
+:::
+
+:::{#cr-kinder-väter-vz}
+```{r kinder-väter-vz}
+#| output: 'asis'
+#| out-width: 4.5in
+#| fig-asp: 1.5
+#| warning: false
+
+kindplot +
+  scale_alpha_manual( 
+  values = c("Karenz" = .2, "Teilzeit" = .2, "Vollzeit" = 1, "Nicht erwerbstätig"= 0.2), guide = guide_none())
 ```
 :::
 
@@ -347,6 +366,8 @@ Mit nur knapp 16 Prozent Väter, die zumindest einen einzigen Tag in Elternkaren
 @cr-kinder-väter
 
 Auch mit steigendem Alter der Kinder ändert sich bei den Vätern wenig. Der Anteil der Männer in Vollzeit oder Teilzeit schwankt in den Daten kaum, unabhängig davon ob ein Kind zuhause, im Kindergarten oder in der Schule ist.
+@cr-kinder-väter-vz
+
 @cr-kinder
 
 :::

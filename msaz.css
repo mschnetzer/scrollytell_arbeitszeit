@@ -44,7 +44,7 @@ body, section, header {
   background-color: rgba(0, 0, 0, 0.85);
   color: rgb(255, 255, 255);
   font-family: "Barlow Condensed";
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-align: center;
   min-width: 50svw;
   position: absolute;
@@ -58,7 +58,11 @@ body, section, header {
 }
 
 .cr-section.overlay-center .narrative-col .trigger .narrative {
-  padding: 0em;
+  padding: 0;
+}
+
+.cr-section.overlay-center .narrative-col .trigger .narrative p {
+  padding: 1% !important;
 }
 
 #info {
