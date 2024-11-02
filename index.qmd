@@ -330,8 +330,8 @@ scale_alpha_manual(values = rep(1, 4), guide = guide_none())
 ```
 :::
 
-:::{#cr-kinder-väter}
-```{r kinder-väter}
+:::{#cr-kinder-tz}
+```{r kinder-tz}
 #| output: 'asis'
 #| out-width: 4.5in
 #| fig-asp: 1.5
@@ -343,8 +343,21 @@ kindplot +
 ```
 :::
 
-:::{#cr-kinder-väter-vz}
-```{r kinder-väter-vz}
+:::{#cr-kinder-karenz}
+```{r kinder-karenz}
+#| output: 'asis'
+#| out-width: 4.5in
+#| fig-asp: 1.5
+#| warning: false
+
+kindplot +
+  scale_alpha_manual( 
+  values = c("Karenz" = 1, "Teilzeit" = .2, "Vollzeit" = .2, "Nicht erwerbstätig"= 0.2), guide = guide_none())
+```
+:::
+
+:::{#cr-kinder-vz}
+```{r kinder-vz}
 #| output: 'asis'
 #| out-width: 4.5in
 #| fig-asp: 1.5
@@ -360,13 +373,13 @@ kindplot +
 
 Die Grafik zeigt den Erwerbsstatus von Männern und Frauen nach dem Alter des jüngsten Kindes. @cr-kinder
 
-Bei kleinen Kindern leisten Frauen den Großteil der Betreuungsarbeit im Rahmen der [Karenz](https://www.statistik.at/fileadmin/pages/361/Tab2_Erwerbsbeteiligung_MuetterVaeter_mit_Kindern_u15J.ods). Nach der Karenz bleiben viele Frauen in Teilzeitbeschäftigung. Als häufigsten Grund für Teilzeit geben Frauen die Betreuungspflichten für Kinder (und Ältere). @cr-kinder-väter
+Bei kleinen Kindern leisten Frauen den Großteil der Betreuungsarbeit im Rahmen der [Karenz](https://www.statistik.at/fileadmin/pages/361/Tab2_Erwerbsbeteiligung_MuetterVaeter_mit_Kindern_u15J.ods). Nach der Karenz bleiben viele Frauen in Teilzeitbeschäftigung. Als häufigsten Grund für Teilzeit geben Frauen die Betreuungspflichten für Kinder (und Ältere). @cr-kinder-tz
 
 Mit nur knapp 16 Prozent Väter, die zumindest einen einzigen Tag in Elternkarenz verbringen, ist die Väterbeteiligung in Österreich sehr schwach. Überhaupt nur 1 Prozent aller Väter gehen länger als 6 Monate in Elternkarenz.
-@cr-kinder-väter
+@cr-kinder-karenz
 
-Auch mit steigendem Alter der Kinder ändert sich bei den Vätern wenig. Der Anteil der Männer in Vollzeit oder Teilzeit schwankt in den Daten kaum, unabhängig davon ob ein Kind zuhause, im Kindergarten oder in der Schule ist.
-@cr-kinder-väter-vz
+Auch mit steigendem Alter der Kinder ändert sich bei den Vätern wenig. Der Anteil der Männer in Vollzeit (und Teilzeit) schwankt in den Daten kaum, unabhängig davon ob ein Kind zuhause, im Kindergarten oder in der Schule ist.
+@cr-kinder-vz
 
 @cr-kinder
 
