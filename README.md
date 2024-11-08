@@ -6,4 +6,4 @@ Published at https://mschnetzer.github.io/scrollytell_arbeitszeit/
 
 ### Preview 
 
-https://github.com/user-attachments/assets/ce897ad4-ea51-4861-a7fe-30dbb1156d6f
+https://github.com/user-attachments/assets/232baf1d-f2ab-42cd-b9fa-1bc91cfd9ba8
